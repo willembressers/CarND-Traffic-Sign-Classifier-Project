@@ -1,6 +1,15 @@
+# ignore data 
 data
-.ipynb_checkpoints
 *.h5
-models
 *.swp
 *.p
+
+# ignore code
+.ipynb_checkpoints
+
+# ignore models
+models
+
+# ignore environment
+.vscode
+.DS_Store
