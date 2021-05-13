@@ -6,20 +6,53 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
-def random_images(X_train, y_train, n_train, class_names, n_columns = 6, n_rows = 3):
+# def random_images(X_train, y_train, n_train, class_names, n_rows = 2, n_columns = 6):
 
-    # generate n random integers from the trainingsset
-    integers = [random.randint(0, n_train) for p in range(0, (n_columns * n_rows))]
+#     # generate n random integers from the trainingsset
+#     integers = [random.randint(0, n_train) for p in range(0, (n_columns * n_rows))]
 
-    # show the images
-    plt.figure(figsize=(22, 10))
-    for index, integer in enumerate(integers):
-        class_id = y_train[integer]
+#     # show the images
+#     plt.figure(figsize=(22, 10))
+#     for index, integer in enumerate(integers):
+#         class_id = y_train[integer]
         
-        ax = plt.subplot(n_rows, n_columns, index + 1)
-        plt.imshow(X_train[integer])
-        plt.title(f'{class_names[class_id]} ({class_id})')
-        plt.axis("off")
+#         ax = plt.subplot(n_rows, n_columns, index + 1)
+#         plt.imshow(X_train[integer])
+#         plt.title(f'{class_names[class_id]} ({class_id})')
+#         plt.axis("off")
+
+
+def image_grid(dataset, class_names, title=None, n_rows = 2, n_columns = 6):
+    fig, axs = plt.subplots(n_rows, n_columns, figsize=(23, 7))
+    fig.suptitle(title)
+
+    # get a batch    
+    image_batch, labels_batch = next(iter(dataset))
+    batch_size = image_batch.shape[0]
+    index = 0
+
+    # loop over the rows and columns
+    for y in range(n_rows):
+        for x in range(n_columns):
+
+            # Quit if there are no more images
+            if index >= batch_size:
+                return
+
+            # get the class_id and the image
+            class_id = int(labels_batch[index].numpy())
+            image = image_batch[index].numpy()
+
+            # handle RGB and grayscale images accordingly
+            cmap = 'gray' if image.shape[2] == 1 else 'viridis'
+
+            # show the image
+            axs[y, x].imshow(image, cmap=cmap)
+            axs[y, x].set_title(f'{class_names[class_id]} ({class_id})')
+            axs[y, x].axis("off")
+
+            # get the next image
+            index += 1
 
 
 def class_distribution(y_train, class_names, threshold=1000):

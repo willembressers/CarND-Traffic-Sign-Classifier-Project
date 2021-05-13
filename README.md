@@ -1,4 +1,5 @@
 # Traffic Sign Recognition
+[![Udacity - Self-Driving Car NanoDegree](https://s3.amazonaws.com/udacity-sdc/github/shield-carnd.svg)](http://www.udacity.com/drive)
 
 The goal of this project is, to train a deep neural network in order to classify traffic signs. The deep neural network is based on the [LeNet](https://en.wikipedia.org/wiki/LeNet#:~:text=LeNet%20is%20a%20convolutional%20neural,a%20simple%20convolutional%20neural%20network.) architecture and trained on the [German Traffic Sign Dataset](http://benchmark.ini.rub.de/?section=gtsrb&subsection=dataset).
 
@@ -40,28 +41,36 @@ The goals / steps of this project are the following:
 
 ## Installation & running
 
+I've had several issues getting the [CarND-Term1-Starter-Kit](https://github.com/udacity/CarND-Term1-Starter-Kit) up and running locally. The Udacity workspace contains tensorflow 1.3 so it's almost obsolete since the current version is 2.5. I'm quite experienced with tensorflow 2.x so therefore i've decided to take a more modern approach.
+
+1. Download the [dataset)[https://s3-us-west-1.amazonaws.com/udacity-selfdrivingcar/traffic-signs-data.zip]
+2. unzip it and put it into the `data/processed` folder
+3. Create a new virtual environment `mkvirtualenv traffic_sign_recognition` and activate it `workon traffic_sign_recognition`
+4. Now install the requirements `pip install -r requirements.txt`
+5. Everything should be present, now run `jupyter lab` and open the notebook in the notebooks folder
 
 ## Project Development
 
-
 ### Data Set Summary & Exploration
 
-#### 1. Provide a basic summary of the data set. In the code, the analysis should be done using python, numpy and/or pandas methods rather than hardcoding results manually.
-
-I used the pandas library to calculate summary statistics of the traffic
+I've read the pickle (train/valid/test) files and split them into features (X) and labels (y). I've also read the `signames.csv` into a pandas dataframe so i can use it to create the variable `class_names` which i'll be using to map the `class_id` to the actual label. I used the pandas library to calculate summary statistics of the traffic
 signs data set:
 
-* The size of training set is ?
-* The size of the validation set is ?
-* The size of test set is ?
-* The shape of a traffic sign image is ?
-* The number of unique classes/labels in the data set is ?
+* The size of training set is `34799`
+* The size of the validation set is `4410`
+* The size of test set is `12630`
+* The shape of a traffic sign image is `(32, 32, 3)`
+* The number of unique classes/labels in the data set is `43`
 
-#### 2. Include an exploratory visualization of the dataset.
+Here is an exploratory visualization of the data set. It is a bar chart showing how all the sign names with their number of images in the trainingset. I've sorted the sign names based on the number of images so we can easily identify which sign names are more and less freqent. I've a rule of thumb that states _"preferably >= 1000 training samples per class"_. Therefore i've added an threshold which highlight the abundant classes and the classes that are likely to perform less.
 
-Here is an exploratory visualization of the data set. It is a bar chart showing how the data ...
-
+[image1]: ./reports/figures/training_images_class_distribution.png "Class distribution"
 ![alt text][image1]
+
+Personally i think it is a good practise to visualise a sample of the trainingset, se we can _"see"_ what we're working with.
+
+[image2]: ./reports/figures/training_images_sample.png "Sample training images"
+![alt text][image2]
 
 ### Design and Test a Model Architecture
 
