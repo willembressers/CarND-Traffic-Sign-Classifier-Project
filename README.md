@@ -15,7 +15,7 @@ I've based the folder structure on the [Cookiecutter Data Science](https://drive
     ├── notebooks          <- Jupyter notebooks. Naming convention is a number (for ordering),
     │                         the creator's initials, and a short `-` delimited description, e.g.
     │                         `1.0-jqp-initial-data-exploration`.
-    ││
+    │
     ├── reports            <- Generated analysis as HTML, PDF, LaTeX, etc.
     │   └── figures        <- Generated graphics and figures to be used in reporting
     │
@@ -24,20 +24,20 @@ I've based the folder structure on the [Cookiecutter Data Science](https://drive
     │
     ├── setup.py           <- makes project pip installable (pip install -e .) so src can be imported
     ├── src                <- Source code for use in this project.
-    ├── __init__.py    <- Makes src a Python module
+    │   └── __init__.py    <- Makes src a Python module
     │
-    ├── data           <- Scripts to download or generate data
+    ├── data               <- Scripts to download or generate data
     │   └── make_dataset.py
     │
-    ├── features       <- Scripts to turn raw data into features for modeling
+    ├── features           <- Scripts to turn raw data into features for modeling
     │   └── build_features.py
     │
-    ├── models         <- Scripts to train models and then use trained models to make
-    │   │                 predictions
+    ├── models             <- Scripts to train models and then use trained models to make
+    │   │                     predictions
     │   ├── predict_model.py
     │   └── train_model.py
     │
-    └── visualization  <- Scripts to create exploratory and results oriented visualizations
+    └── visualization      <- Scripts to create exploratory and results oriented visualizations
         └── visualize.py
 
 ## Project goals
@@ -221,9 +221,8 @@ Now we have the true classes (from the directories) `y_true` and the predicted c
 
 Now let's see how well the custom dataset holds against the other datasets. The performance should be less than the other datasets, because there are far fewer images, and thus a false prediction would have much more impact than the large datasets.
 
-[image8]: ./reports/figures/model_accuracy_on_datasets_and_custom.png "Dataset accuracy comparisson"
-![alt text][image8]
-
+[image9]: ./reports/figures/model_accuracy_on_datasets_and_custom.png "Dataset accuracy comparisson"
+![alt text][image9]
 
 #### Top 5 Softmax probabilities
 
