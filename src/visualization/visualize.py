@@ -6,20 +6,21 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
-# def random_images(X_train, y_train, n_train, class_names, n_rows = 2, n_columns = 6):
+def random_images(X_train, y_train, n_train, class_names, title=None, n_rows = 2, n_columns = 6):
 
-#     # generate n random integers from the trainingsset
-#     integers = [random.randint(0, n_train) for p in range(0, (n_columns * n_rows))]
+    # generate n random integers from the trainingsset
+    integers = [random.randint(0, n_train) for p in range(0, (n_columns * n_rows))]
 
-#     # show the images
-#     plt.figure(figsize=(22, 10))
-#     for index, integer in enumerate(integers):
-#         class_id = y_train[integer]
+    # show the images
+    fig, axs = plt.subplots(n_rows, n_columns, figsize=(23, 7))
+    fig.suptitle(title)
+    for index, integer in enumerate(integers):
+        class_id = y_train[integer]
         
-#         ax = plt.subplot(n_rows, n_columns, index + 1)
-#         plt.imshow(X_train[integer])
-#         plt.title(f'{class_names[class_id]} ({class_id})')
-#         plt.axis("off")
+        ax = plt.subplot(n_rows, n_columns, index + 1)
+        plt.imshow(X_train[integer])
+        plt.title(f'{class_names[class_id]} ({class_id})')
+        plt.axis("off")
 
 
 def image_grid(dataset, class_names, title=None, n_rows = 2, n_columns = 6):
@@ -55,7 +56,7 @@ def image_grid(dataset, class_names, title=None, n_rows = 2, n_columns = 6):
             index += 1
 
 
-def class_distribution(y_train, class_names, threshold=1000):
+def class_distribution(y_train, class_names, title='', threshold=1000):
     # count per value
     values, counts = np.unique(y_train, return_counts=True)
 
@@ -95,7 +96,7 @@ def class_distribution(y_train, class_names, threshold=1000):
         else:
             bar.set_color('orange')
 
-    plt.title('Nr training images per class')
+    plt.title(title)
     plt.xlabel('Nr images')
     plt.ylabel('Class label')
     plt.legend()

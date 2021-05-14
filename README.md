@@ -23,11 +23,22 @@ I've based the folder structure on the [Cookiecutter Data Science](https://drive
     │                         generated with `pip freeze > requirements.txt`
     │
     ├── setup.py           <- makes project pip installable (pip install -e .) so src can be imported
-    └── src                <- Source code for use in this project.
-        ├── __init__.py    <- Makes src a Python module
-        │
-        └── visualization  <- Scripts to create exploratory and results oriented visualizations
-            └── visualize.py
+    ├── src                <- Source code for use in this project.
+    ├── __init__.py    <- Makes src a Python module
+    │
+    ├── data           <- Scripts to download or generate data
+    │   └── make_dataset.py
+    │
+    ├── features       <- Scripts to turn raw data into features for modeling
+    │   └── build_features.py
+    │
+    ├── models         <- Scripts to train models and then use trained models to make
+    │   │                 predictions
+    │   ├── predict_model.py
+    │   └── train_model.py
+    │
+    └── visualization  <- Scripts to create exploratory and results oriented visualizations
+        └── visualize.py
 
 ## Project goals
 
@@ -67,12 +78,35 @@ Here is an exploratory visualization of the data set. It is a bar chart showing 
 [image1]: ./reports/figures/training_images_class_distribution.png "Class distribution"
 ![alt text][image1]
 
-Personally i think it is a good practise to visualise a sample of the trainingset, se we can _"see"_ what we're working with.
+### Design and Test a Model Architecture
 
-[image2]: ./reports/figures/training_images_sample.png "Sample training images"
+As you can see there is a great imbalance between the number of training images per class. So in order to take this into account, i've calculated the weight per class `class_weight`. This variable will be used in the training phase to balance the network by applying the class weights in the network.
+
+Since i'm using Tensorflow 2.x i might aswell use the tensorflow dataset to manage the data.
+```python
+# create tensorflow datasets
+train_ds = tf.data.Dataset.from_tensor_slices((X_train, y_train))
+val_ds = tf.data.Dataset.from_tensor_slices((X_valid, y_valid))
+test_ds = tf.data.Dataset.from_tensor_slices((X_test, y_test))
+```
+
+Next i've preprocessed the datasets. The trainingset is shuffled so the order of the training images doesn't affect the network to much. Next i've applied augmentation on the trainingset, so the network will become more robust. As you can see in `src/features/build_features` i've randomized the (hue, saturation, brightness, contrast) of the training images. All datasets were preprocessed by the same actions (standardization & grayscaling).
+```python
+# preprocess the datasets + apply augmentation
+train_ds = build_features.preprocess(train_ds, batch_size=batch_size, shuffle=True, augment=True)
+val_ds = build_features.preprocess(val_ds, batch_size=batch_size)
+test_ds = build_features.preprocess(test_ds, batch_size=batch_size)
+```
+
+Personally i think it is a good practise to visualise a sample of the trainingset, se we can _"see"_ what we're working with. Here is an example of the original training images.
+
+[image2]: ./reports/figures/training_examples.png "Original training images"
 ![alt text][image2]
 
-### Design and Test a Model Architecture
+And are some augmented and preprocessed training images.
+
+[image2]: ./reports/figures/training_examples_preprocessed.png "Preprocessed training images"
+![alt text][image2]
 
 #### 1. Describe how you preprocessed the image data. What techniques were chosen and why did you choose these techniques? Consider including images showing the output of each preprocessing technique. Pre-processing refers to techniques such as converting to grayscale, normalization, etc. (OPTIONAL: As described in the "Stand Out Suggestions" part of the rubric, if you generated additional data for training, describe why you decided to generate additional data, how you generated the data, and provide example images of the additional data. Then describe the characteristics of the augmented training set like number of images in the set, number of images for each class, etc.)
 

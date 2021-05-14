@@ -39,9 +39,7 @@ def lenet_architecture(input_shape, n_classes):
 
 	return model
 
-def train(model, train_dataset, validation_dataset, n_train, batch_size, epochs=50):
-	steps_per_epoch = n_train//batch_size
-
+def train(model, train_dataset, validation_dataset, class_weight=None, epochs=50):
 	# callbacks
 	callbacks = [
 	    # prevent overfitting
@@ -57,7 +55,7 @@ def train(model, train_dataset, validation_dataset, n_train, batch_size, epochs=
 	    epochs=epochs,
 	    validation_data=validation_dataset,
 	    callbacks=callbacks,
-	    steps_per_epoch=steps_per_epoch
+	    class_weight=class_weight,
 	)
 
 	return history
