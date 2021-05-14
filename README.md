@@ -80,6 +80,7 @@ Here is an exploratory visualization of the data set. It is a bar chart showing 
 
 ### Design and Test a Model Architecture
 
+#### Data Preprocessing
 As you can see there is a great imbalance between the number of training images per class. So in order to take this into account, i've calculated the weight per class `class_weight`. This variable will be used in the training phase to balance the network by applying the class weights in the network.
 
 Since i'm using Tensorflow 2.x i might aswell use the tensorflow dataset to manage the data.
@@ -105,51 +106,51 @@ Personally i think it is a good practise to visualise a sample of the trainingse
 
 And are some augmented and preprocessed training images.
 
-[image2]: ./reports/figures/training_examples_preprocessed.png "Preprocessed training images"
-![alt text][image2]
-
-#### 1. Describe how you preprocessed the image data. What techniques were chosen and why did you choose these techniques? Consider including images showing the output of each preprocessing technique. Pre-processing refers to techniques such as converting to grayscale, normalization, etc. (OPTIONAL: As described in the "Stand Out Suggestions" part of the rubric, if you generated additional data for training, describe why you decided to generate additional data, how you generated the data, and provide example images of the additional data. Then describe the characteristics of the augmented training set like number of images in the set, number of images for each class, etc.)
-
-As a first step, I decided to convert the images to grayscale because ...
-
-Here is an example of a traffic sign image before and after grayscaling.
-
-![alt text][image2]
-
-As a last step, I normalized the image data because ...
-
-I decided to generate additional data because ... 
-
-To add more data to the the data set, I used the following techniques because ... 
-
-Here is an example of an original image and an augmented image:
-
+[image3]: ./reports/figures/training_examples_preprocessed.png "Preprocessed training images"
 ![alt text][image3]
 
-The difference between the original data set and the augmented data set is the following ... 
+#### Model architecture
+
+As mentioned before, iv've based the network architecture on the [LeNet](https://en.wikipedia.org/wiki/LeNet#:~:text=LeNet%20is%20a%20convolutional%20neural,a%20simple%20convolutional%20neural%20network.) architecture. `src/models/train_model`. I've adjusted the imput layers so it matches the image dimensions `(32,32,1)` after preprocessing, and the ouput layer to match the number of classes `n_classes`. I've also added some dropout layers, so the model will become more robust.
+
+[image4]: ./reports/figures/model_summary.png "Model summary"
+![alt text][image4]
+
+#### Model training
+
+Now that the data is prepared and the model architecture is defined, i can train the model. In `src/models/train_model` is the training code. As you can see i've:
+- compiled the model with the Adam optimizer, and started with an initial learing rate of (0.001)
+- the model trains for a maximum of 50 epochs
+- added callbacks 
+ - EarlyStopping: prevents overfitting by monitoring the loss. If the validation loss doesn't decrease any futher the function will stop the epochs.
+ - ReduceLROnPlateau: monitors also the validation loss. If the validation loss doesn't decrease any futher the function decrease the learning rate. So we'll find the global optimum.
+- added the class weights, to counter the class imbalance
+- because i'm using tensorflow datasets the data is allready batched in sizes of 128.
+
+As you can see in the training history:
+
+[image5]: ./reports/figures/training_history.png "training history"
+![alt text][image5]
+
+The accuracy of the training and the validation, steadily grows above the `threshold = 0.93`, while the loss is decreasing. The ReduceLROnPlateau occasionally drops the learning rate and the EarlyStopping stops the training before the 50th epoch.
+
+I've evaluated the model on all (training, validation, test) datasets.
+
+[image6]: ./reports/figures/model_accuracy_on_datasets.png "Model accuracy"
+![alt text][image6]
+
+My final model results were:
+- training set accuracy of 0.996
+- validation set accuracy of 0.933
+- test set accuracy of 0.909
 
 
-#### 2. Describe what your final model architecture looks like including model type, layers, layer sizes, connectivity, etc.) Consider including a diagram and/or table describing the final model.
 
-My final model consisted of the following layers:
 
-| Layer         		|     Description	        					| 
-|:---------------------:|:---------------------------------------------:| 
-| Input         		| 32x32x3 RGB image   							| 
-| Convolution 3x3     	| 1x1 stride, same padding, outputs 32x32x64 	|
-| RELU					|												|
-| Max pooling	      	| 2x2 stride,  outputs 16x16x64 				|
-| Convolution 3x3	    | etc.      									|
-| Fully connected		| etc.        									|
-| Softmax				| etc.        									|
-|						|												|
-|						|												|
  
 
 
-#### 3. Describe how you trained your model. The discussion can include the type of optimizer, the batch size, number of epochs and any hyperparameters such as learning rate.
 
-To train the model, I used an ....
 
 #### 4. Describe the approach taken for finding a solution and getting the validation set accuracy to be at least 0.93. Include in the discussion the results on the training, validation and test sets and where in the code these were calculated. Your approach may have been an iterative process, in which case, outline the steps you took to get to the final solution and why you chose those steps. Perhaps your solution involved an already well known implementation or architecture. In this case, discuss why you think the architecture is suitable for the current problem.
 

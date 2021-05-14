@@ -5,7 +5,7 @@ import tensorflow as tf
 
 
 def lenet_architecture(input_shape, n_classes):
-	model = tf.keras.Sequential([
+	return tf.keras.Sequential([
 
 		# Layer 1: Convolutional. Input = 32x32x3. Output = 28x28x6.
 		tf.keras.layers.Conv2D(filters=6, kernel_size=(3, 3), activation='relu', input_shape=input_shape),
@@ -30,32 +30,24 @@ def lenet_architecture(input_shape, n_classes):
 		tf.keras.layers.Dense(units=n_classes)
 	])
 
+
+def compile_and_fit(model, train_dataset, validation_dataset, class_weight=None, learning_rate=0.001, epochs=50):
+
 	# compile the model
 	model.compile(
-		optimizer = 'adam',
+		optimizer = tf.keras.optimizers.Adam(learning_rate=learning_rate), 
 		loss = tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
 		metrics = ['accuracy']
 	)
 
-	return model
-
-def train(model, train_dataset, validation_dataset, class_weight=None, epochs=50):
-	# callbacks
-	callbacks = [
-	    # prevent overfitting
-	    tf.keras.callbacks.EarlyStopping(patience=10),
-	    
-	    # decrease learning rate
-	    tf.keras.callbacks.ReduceLROnPlateau(monitor="val_loss", factor=0.1, patience=4),
-	]
-
 	# train the model
-	history = model.fit(
-	    train_dataset, 
-	    epochs=epochs,
-	    validation_data=validation_dataset,
-	    callbacks=callbacks,
-	    class_weight=class_weight,
+	return model.fit(
+		train_dataset, 
+		epochs=epochs,
+		validation_data=validation_dataset,
+		callbacks=[
+			tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=10),
+			tf.keras.callbacks.ReduceLROnPlateau(monitor='val_loss', factor=0.1, patience=4),
+		],
+		class_weight=class_weight,
 	)
-
-	return history
