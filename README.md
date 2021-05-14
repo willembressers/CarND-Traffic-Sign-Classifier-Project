@@ -144,167 +144,144 @@ My final model results were:
 - validation set accuracy of 0.933
 - test set accuracy of 0.909
 
+As you can see in the `notebooks/experiments` folder. i've took an itterative approach in order to increase the model performance. I duplicate the notebook and change ther version number + changelog (in the top) to keep track of all the experiments. I've started with a simple 4 layer custom model, and measured the accuracy during training and on all the datasets. Over time i've added functionality like rescaling, dropout, callbacks in order to improve performance. Once i was satisfied i've migrated the code over to the original notebook. 
 
+During writeup i noticed i've had to achieve an accuracy of 0.93 on the validation set. So i've experimented quite a lot in the original notebook until i've adchieved the threshold. You can probably trace this in the git history of the file. I've:
+- changed from a simple 4 layer custom model, a LeNet like architecture
+- applied several augmentations (flipping, didn't seem right to me)
+- experimented with batch sizes, nr epochs
 
-
- 
-
-
-
-
-#### 4. Describe the approach taken for finding a solution and getting the validation set accuracy to be at least 0.93. Include in the discussion the results on the training, validation and test sets and where in the code these were calculated. Your approach may have been an iterative process, in which case, outline the steps you took to get to the final solution and why you chose those steps. Perhaps your solution involved an already well known implementation or architecture. In this case, discuss why you think the architecture is suitable for the current problem.
-
-My final model results were:
-* training set accuracy of ?
-* validation set accuracy of ? 
-* test set accuracy of ?
-
-If an iterative approach was chosen:
-* What was the first architecture that was tried and why was it chosen?
-* What were some problems with the initial architecture?
-* How was the architecture adjusted and why was it adjusted? Typical adjustments could include choosing a different model architecture, adding or taking away layers (pooling, dropout, convolution, etc), using an activation function or changing the activation function. One common justification for adjusting an architecture would be due to overfitting or underfitting. A high accuracy on the training set but low accuracy on the validation set indicates over fitting; a low accuracy on both sets indicates under fitting.
-* Which parameters were tuned? How were they adjusted and why?
-* What are some of the important design choices and why were they chosen? For example, why might a convolution layer work well with this problem? How might a dropout layer help with creating a successful model?
-
-If a well known architecture was chosen:
-* What architecture was chosen?
-* Why did you believe it would be relevant to the traffic sign application?
-* How does the final model's accuracy on the training, validation and test set provide evidence that the model is working well?
- 
+Eventually the current codebase with the preprocessing, augmentation, and hyperparameters seemed to worked the best.
 
 ### Test a Model on New Images
 
-#### 1. Choose five German traffic signs found on the web and provide them in the report. For each image, discuss what quality or qualities might be difficult to classify.
+#### Data loading
+I've manually searched and downloaded several images from the internet. I've kept a copy of the original in the `data/raw` folder. Next i've manually:
+- croped the image to a `square` where the traffic sign was located
+- changed the image dimensions to 32,32 pixels
+- put the in a folder with the corresponding class_id
 
-Here are five German traffic signs that I found on the web:
-
-![alt text][image4] ![alt text][image5] ![alt text][image6] 
-![alt text][image7] ![alt text][image8]
-
-The first image might be difficult to classify because ...
-
-#### 2. Discuss the model's predictions on these new traffic signs and compare the results to predicting on the test set. At a minimum, discuss what the predictions were, the accuracy on these new predictions, and compare the accuracy to the accuracy on the test set (OPTIONAL: Discuss the results in more detail as described in the "Stand Out Suggestions" part of the rubric).
-
-Here are the results of the prediction:
-
-| Image			        |     Prediction	        					| 
-|:---------------------:|:---------------------------------------------:| 
-| Stop Sign      		| Stop sign   									| 
-| U-turn     			| U-turn 										|
-| Yield					| Yield											|
-| 100 km/h	      		| Bumpy Road					 				|
-| Slippery Road			| Slippery Road      							|
-
-
-The model was able to correctly guess 4 of the 5 traffic signs, which gives an accuracy of 80%. This compares favorably to the accuracy on the test set of ...
-
-#### 3. Describe how certain the model is when predicting on each of the five new images by looking at the softmax probabilities for each prediction. Provide the top 5 softmax probabilities for each image along with the sign type of each probability. (OPTIONAL: as described in the "Stand Out Suggestions" part of the rubric, visualizations can also be provided such as bar charts)
-
-The code for making predictions on my final model is located in the 11th cell of the Ipython notebook.
-
-For the first image, the model is relatively sure that this is a stop sign (probability of 0.6), and the image does contain a stop sign. The top five soft max probabilities were
-
-| Probability         	|     Prediction	        					| 
-|:---------------------:|:---------------------------------------------:| 
-| .60         			| Stop sign   									| 
-| .20     				| U-turn 										|
-| .05					| Yield											|
-| .04	      			| Bumpy Road					 				|
-| .01				    | Slippery Road      							|
-
-
-For the second image ... 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-## Project: Build a Traffic Sign Recognition Program
-[![Udacity - Self-Driving Car NanoDegree](https://s3.amazonaws.com/udacity-sdc/github/shield-carnd.svg)](http://www.udacity.com/drive)
-
-Overview
----
-In this project, you will use what you've learned about deep neural networks and convolutional neural networks to classify traffic signs. You will train and validate a model so it can classify traffic sign images using the [German Traffic Sign Dataset](http://benchmark.ini.rub.de/?section=gtsrb&subsection=dataset). After the model is trained, you will then try out your model on images of German traffic signs that you find on the web.
-
-We have included an Ipython notebook that contains further instructions 
-and starter code. Be sure to download the [Ipython notebook](https://github.com/udacity/CarND-Traffic-Sign-Classifier-Project/blob/master/Traffic_Sign_Classifier.ipynb). 
-
-We also want you to create a detailed writeup of the project. Check out the [writeup template](https://github.com/udacity/CarND-Traffic-Sign-Classifier-Project/blob/master/writeup_template.md) for this project and use it as a starting point for creating your own writeup. The writeup can be either a markdown file or a pdf document.
-
-To meet specifications, the project will require submitting three files: 
-* the Ipython notebook with the code
-* the code exported as an html file
-* a writeup report either as a markdown or pdf file 
-
-Creating a Great Writeup
----
-A great writeup should include the [rubric points](https://review.udacity.com/#!/rubrics/481/view) as well as your description of how you addressed each point.  You should include a detailed description of the code used in each step (with line-number references and code snippets where necessary), and links to other supporting documents or external references.  You should include images in your writeup to demonstrate how your code works with examples.  
-
-All that said, please be concise!  We're not looking for you to write a book here, just a brief description of how you passed each rubric point, and references to the relevant code :). 
-
-You're not required to use markdown for your writeup.  If you use another method please just submit a pdf of your writeup.
-
-The Project
----
-The goals / steps of this project are the following:
-* Load the data set
-* Explore, summarize and visualize the data set
-* Design, train and test a model architecture
-* Use the model to make predictions on new images
-* Analyze the softmax probabilities of the new images
-* Summarize the results with a written report
-
-### Dependencies
-This lab requires:
-
-* [CarND Term1 Starter Kit](https://github.com/udacity/CarND-Term1-Starter-Kit)
-
-The lab environment can be created with CarND Term1 Starter Kit. Click [here](https://github.com/udacity/CarND-Term1-Starter-Kit/blob/master/README.md) for the details.
-
-### Dataset and Repository
-
-1. Download the data set. The classroom has a link to the data set in the "Project Instructions" content. This is a pickled dataset in which we've already resized the images to 32x32. It contains a training, validation and test set.
-2. Clone the project, which contains the Ipython notebook and the writeup template.
-```sh
-git clone https://github.com/udacity/CarND-Traffic-Sign-Classifier-Project
-cd CarND-Traffic-Sign-Classifier-Project
-jupyter notebook Traffic_Sign_Classifier.ipynb
+Now i can use the preprocessing function to load images directly into a dataset and infer the class_names from the directory names.
+```python
+### Load the images and plot them here.
+custom_ds = tf.keras.preprocessing.image_dataset_from_directory(
+    os.path.join(os.pardir, 'data', 'processed', 'custom_images'),
+    shuffle=False,
+    image_size=(32, 32),
+    batch_size=batch_size
+)
 ```
 
-### Requirements for Submission
-Follow the instructions in the `Traffic_Sign_Classifier.ipynb` notebook and write the project report using the writeup template as a guide, `writeup_template.md`. Submit the project code and writeup document.
+Now that i have some images i can _"see"_ if they are correct.
 
-## How to write a README
-A well written README file can enhance your project and portfolio.  Develop your abilities to create professional README files by completing [this free course](https://www.udacity.com/course/writing-readmes--ud777).
+[image7]: ./reports/figures/custom_images.png "Custom images"
+![alt text][image7]
 
+#### Making predictions
+
+Before i can make any predictions on the data i need to preprocess them on the same steps as i've did on the training data. I don't need to batch them, because in the loading from directory the images where allready batched.
+
+```python
+# preprocess the datasets + apply augmentation
+custom_ds = build_features.preprocess(custom_ds, batch=False)
+```
+
+Now the data is ready, i can make the predictions. Since the output of the model are logits i'll append a softmax layer to the model in order to get values between 0 and 1, which in turn resemble a probability. Now the output of the model (+ softmax) is a probability per class and this is usefull for the predicting. After we've predicted the classes we need to apply and argmax function (per image) to figure out which class has the highest probability. 
+
+| Image (y_true) | Prediction (y_pred) | 
+|:---:|:---:| 
+| Right-of-way at the next intersection | Right-of-way at the next intersection |
+| Yield | Yield |
+| Yield | Yield |
+| Stop | Stop |
+| General caution | General caution |
+| Speed limit (50km/h) | Speed limit (30km/h) |
+| Speed limit (50km/h) | Roundabout mandatory |
+| Bumpy road | Bumpy road |
+| Road work | Road work |
+| Children crossing | Bicycles crossing |
+| Speed limit (70km/h) | Speed limit (70km/h) |
+
+#### Analyze performance
+
+The model made the following mistakes.
+
+| Image (y_true) | Prediction (y_pred) | 
+|:---:|:---:| 
+| Speed limit (50km/h) | Speed limit (30km/h) |
+| Speed limit (50km/h) | Roundabout mandatory |
+| Children crossing | Bicycles crossing |
+
+The first and the last mistake make sense to me, the signs are quite similar. As for the middle mistake, i cant really tell why.
+
+Now we have the true classes (from the directories) `y_true` and the predicted classes `y_pred`, and we can generate a confusion matrix to inspect which predictions where right and which where wrong. A perfect model would have the same classes predicted as the true values, and the confusion matrix would highlite this in the diagonal line. 
+
+[image8]: ./reports/figures/model_accuracy_confusion_matrix.png "Confusion matrix"
+![alt text][image8]
+
+Now let's see how well the custom dataset holds against the other datasets. The performance should be less than the other datasets, because there are far fewer images, and thus a false prediction would have much more impact than the large datasets.
+
+[image8]: ./reports/figures/model_accuracy_on_datasets_and_custom.png "Dataset accuracy comparisson"
+![alt text][image8]
+
+
+#### Top 5 Softmax probabilities
+
+If we take a closer look at the top 5 predictions per image, we'll see that the majority that is correctly classified has a probability of 100%. This implies that the model whas quite confident this is the right classification. I would have expected (hoped) that the model was more uncertain about its misclassification on the images that are quite similar.
+
+| image | y_true | prediction | y_pred | probability |
+| 0 | Right-of-way at the next intersection | 0 | Right-of-way at the next intersection | 100.00% |
+| 0 | Right-of-way at the next intersection | 1 | End of speed limit (80km/h) | 0.00% |
+| 0 | Right-of-way at the next intersection | 2 | Roundabout mandatory | 0.00% |
+| 0 | Right-of-way at the next intersection | 3 | Speed limit (80km/h) | 0.00% |
+| 0 | Right-of-way at the next intersection | 4 | Pedestrians | 0.00% |
+| 1 | Yield | 0 | Yield | 100.00% |
+| 1 | Yield | 1 | Ahead only | 0.00% |
+| 1 | Yield | 2 | No vehicles | 0.00% |
+| 1 | Yield | 3 | No passing | 0.00% |
+| 1 | Yield | 4 | Priority road | 0.00% |
+| 2 | Yield | 0 | Yield | 100.00% |
+| 2 | Yield | 1 | Ahead only | 0.00% |
+| 2 | Yield | 2 | Priority road | 0.00% |
+| 2 | Yield | 3 | No vehicles | 0.00% |
+| 2 | Yield | 4 | No passing | 0.00% |
+| 3 | Stop | 0 | Stop | 100.00% |
+| 3 | Stop | 1 | Keep right | 0.00% |
+| 3 | Stop | 2 | Speed limit (30km/h) | 0.00% |
+| 3 | Stop | 3 | Priority road | 0.00% |
+| 3 | Stop | 4 | Yield | 0.00% |
+| 4 | General caution | 0 | General caution | 100.00% |
+| 4 | General caution | 1 | Traffic signals | 0.00% |
+| 4 | General caution | 2 | Road work | 0.00% |
+| 4 | General caution | 3 | Road narrows on the right | 0.00% |
+| 4 | General caution | 4 | Pedestrians | 0.00% |
+| 5 | Speed limit (50km/h) | 0 | Speed limit (30km/h) | 64.13% |
+| 5 | Speed limit (50km/h) | 1 | Speed limit (50km/h) | 35.87% |
+| 5 | Speed limit (50km/h) | 2 | Speed limit (20km/h) | 0.00% |
+| 5 | Speed limit (50km/h) | 3 | Speed limit (80km/h) | 0.00% |
+| 5 | Speed limit (50km/h) | 4 | Roundabout mandatory  | 0.00% |
+| 6 | Speed limit (50km/h) | 0 | Roundabout mandatory | 91.61% |
+| 6 | Speed limit (50km/h) | 1 | Keep left | 3.78% |
+| 6 | Speed limit (50km/h) | 2 | Speed limit (30km/h) | 2.96% |
+| 6 | Speed limit (50km/h) | 3 | Speed limit (70km/h) | 0.58% |
+| 6 | Speed limit (50km/h) | 4 | General caution | 0.45% |
+| 7 | Bumpy road | 0 | Bumpy road | 100.00% | 
+| 7 | Bumpy road | 1 | No vehicles | 0.00% | 
+| 7 | Bumpy road | 2 | Turn left ahead | 0.00% | 
+| 7 | Bumpy road | 3 | Yield | 0.00% | 
+| 7 | Bumpy road | 4 | No passing | 0.00% | 
+| 8 | Road work | 0 | Road work | 100.00% |
+| 8 | Road work | 1 | Double curve | 0.00% |
+| 8 | Road work | 2 | Wild animals crossing | 0.00% |
+| 8 | Road work | 3 | Road narrows on the right | 0.00% |
+| 8 | Road work | 4 | Speed limit (30km/h) | 0.00% |
+| 9 | Children crossing | 0 | Bicycles crossing | 95.38% |
+| 9 | Children crossing | 1 | Children crossing | 4.57% |
+| 9 | Children crossing | 2 | Dangerous curve to the right | 0.05% |
+| 9 | Children crossing | 3 | Road narrows on the right | 0.00% |
+| 9 | Children crossing | 4 | General caution | 0.00% |
+| 10 | Speed limit (70km/h) | 0 | Speed limit (70km/h) | 90.80% |
+| 10 | Speed limit (70km/h) | 1 | Speed limit (20km/h) | 9.20% |
+| 10 | Speed limit (70km/h) | 2 | Speed limit (30km/h) | 0.00% |
+| 10 | Speed limit (70km/h) | 3 | Speed limit (80km/h) | 0.00% |
+| 10 | Speed limit (70km/h) | 4 | Speed limit (100km/h) | 0.00% |
