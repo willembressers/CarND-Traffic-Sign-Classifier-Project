@@ -229,6 +229,7 @@ Now let's see how well the custom dataset holds against the other datasets. The 
 If we take a closer look at the top 5 predictions per image, we'll see that the majority that is correctly classified has a probability of 100%. This implies that the model whas quite confident this is the right classification. I would have expected (hoped) that the model was more uncertain about its misclassification on the images that are quite similar.
 
 | image | y_true | prediction | y_pred | probability |
+|:---:|:---:|:---:|:---:|:---:|
 | 0 | Right-of-way at the next intersection | 0 | Right-of-way at the next intersection | 100.00% |
 | 0 | Right-of-way at the next intersection | 1 | End of speed limit (80km/h) | 0.00% |
 | 0 | Right-of-way at the next intersection | 2 | Roundabout mandatory | 0.00% |
